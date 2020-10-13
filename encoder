@@ -1,6 +1,8 @@
 #define ENCODER_DO_NOT_USE_INTERRUPTS
 #include <Encoder.h>
 
+//there are 24 ticks in one revolution
+
 // Beware of Serial.print() speed.  Without interrupts, if you
 // transmit too much data with Serial.print() it can slow your
 // reading from Encoder.  Arduino 1.0 has improved transmit code.
