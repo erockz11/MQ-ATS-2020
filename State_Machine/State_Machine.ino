@@ -34,7 +34,14 @@ char colours[] = {'R', 'G', 'B', 'Y', 'K'};
 
 char colour = ' ';
 
-/* Variables: Motor+Encoder */
+/* Variables: Motor Encoder */
+
+#define ENCODER_DO_NOT_USE_INTERRUPTS
+#include <Encoder.h>
+
+Encoder enc1(31, 33);
+long pos = -999;
+long previousPos = 0;
 
 /* Variables: Motion State Machine */
 
@@ -54,4 +61,5 @@ void loop() {
   identifyColour();
   sendBT(colour);
   readBT();
+  encoderLoop();
 }

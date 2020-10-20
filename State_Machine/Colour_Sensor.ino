@@ -18,7 +18,6 @@ void senseRed(){
   Serial.print("R= ");
   Serial.print(R);  // print RED color frequency
   Serial.print("  ");
-  delay(100);
 }
 
 // Read green filtered photodiodes
@@ -30,7 +29,6 @@ void senseGreen(){
   Serial.print("G= ");
   Serial.print(G);  //print GREEN color frequency
   Serial.print("  ");
-  delay(100);
 }
 
 // Read blue filtered photodiodes
@@ -42,7 +40,6 @@ void senseBlue(){
   Serial.print("B= ");
   Serial.print(B);  // print BLUE color frequency
   Serial.println("  ");
-  delay(100);
 }
 
 void senseColour(){
