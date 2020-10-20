@@ -1,0 +1,30 @@
+SLAVE
+ADDRESS: D43639D8A20A
+NAME: C2_SLAVE
+ROLE: 0
+DESCRIPTION: HAS A CLEAR HEAT SHRINK PLASTIC WRAPPER
+
+MASTER
+ADDRESS: D43639D89EB9
+NAME: C4_MASTER
+ROLE: 1
+DESCRIPTION: BARE
+
+AT Commands
+1. AT+DISC? [Discover(y)]
+-Scans for other HM-10 Modules
+-Initial Response: OK+DISCS (S at end means Start)
+-Succeeding Response: OK+DIS0:[MAC address] (0 indicates first HM-10 module detected, MAC address is in body of response)
+-Final Response: OK+DISCE
+
+2. AT+CONNx [Connect to module number x]
+-Used to connect to item in list of discovered HM-10 modules
+-Response: OK+CONNx (connected to module number x)
+
+3. AT
+-Stops any active connections
+-Disconnects the modules
+
+4. AT+IMMEx
+-x set to 1 means module must wait until it receives an AT connection command [START, CON, OR CONNL]
+-x is set to 0 by default, indicates it auto-connects at start-up
