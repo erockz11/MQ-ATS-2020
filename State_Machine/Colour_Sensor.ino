@@ -3,7 +3,11 @@ void setupColour(){
   pinMode(S1, OUTPUT);
   pinMode(S2, OUTPUT);
   pinMode(S3, OUTPUT);
-  pinMode(colourOut, INPUT);
+  pinMode(BlackLED, OUTPUT);
+  pinMode(GreenLED, OUTPUT);
+  pinMode(BlueLED, OUTPUT);
+  pinMode(YellowLED, OUTPUT);
+  pinMode(RedLED, OUTPUT);
   digitalWrite(S0,HIGH);  // set frequency-scaling to 20%
   digitalWrite(S1,LOW);
   Serial.println("Colour sensor ready");
@@ -50,19 +54,44 @@ void senseColour(){
 }
 
 void identifyColour(){
-  if(Red > Blue && Red > Green) {
-    colour = colours[0];  
+  if(Red > Blue && Red > Green && (Red-Green) > 110 && Blue < 0 && (Red-Blue) > 170 && Green < 100) {
+    colour = colours[0];
+    digitalWrite(RedLED,HIGH);
+    digitalWrite(GreenLED,LOW);
+    digitalWrite(BlueLED,LOW);
+    digitalWrite(YellowLED,LOW);
+    digitalWrite(BlackLED,LOW);      
   }
-  if(Green > Blue && Green > Red) {
-    colour = colours[1];  
+  if(Green > Blue && Green > Red && Blue < 100 && Red < 300) {
+    colour = colours[1];
+    digitalWrite(GreenLED,HIGH);
+    digitalWrite(RedLED,LOW);
+    digitalWrite(BlueLED,LOW);
+    digitalWrite(YellowLED,LOW);
+    digitalWrite(BlackLED,LOW);     
   }
   if(Blue > Red && Blue > Green) {
     colour = colours[2];
+    digitalWrite(BlueLED,HIGH);
+    digitalWrite(RedLED,LOW);
+    digitalWrite(GreenLED,LOW);
+    digitalWrite(YellowLED,LOW);
+    digitalWrite(BlackLED,LOW);    
   }
-  if(Red > Blue && Green > Blue) {
-    colour = colours[3];    
+  if(Red > Blue && Green > Blue && Green > 0 && (Red-Green) < 90 && (Red-Blue) > 150 || Red > 300) {
+    colour = colours[3];  
+    digitalWrite(YellowLED,HIGH);
+    digitalWrite(RedLED,LOW);
+    digitalWrite(GreenLED,LOW);
+    digitalWrite(BlueLED,LOW);
+    digitalWrite(BlackLED,LOW);      
   }
   if(Red < 0 && Green < 0 && Blue < 0) {
     colour = colours[4];
+    digitalWrite(BlackLED,HIGH);
+    digitalWrite(RedLED,LOW);
+    digitalWrite(GreenLED,LOW);
+    digitalWrite(BlueLED,LOW);
+    digitalWrite(YellowLED,LOW);  
   }
 }

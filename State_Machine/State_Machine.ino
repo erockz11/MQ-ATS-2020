@@ -25,6 +25,11 @@ char c = ' ';
 #define S2 6
 #define S3 7
 #define colourOut 8
+#define BlackLED 22
+#define GreenLED 23
+#define BlueLED 24
+#define YellowLED 25
+#define RedLED 26
 
 int Red = 0;
 int Green = 0;
