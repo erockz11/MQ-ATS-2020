@@ -20,7 +20,7 @@ void setup(){
 void loop(){
   readBT();
   readSerial();
-  char commands[] = {'P', 'R', 'T', 'V', 'W', 'X', 'Z'}; // sample command characters
-  sendBT(commands[0]);
+  char commands[] = {'P', 'R', 'T', 'V', '\\', 'X', 'Z'}; // sample command characters
+  sendBT(commands[4]);
   delay(100);
 }

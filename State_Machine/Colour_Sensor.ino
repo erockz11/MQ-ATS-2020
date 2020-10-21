@@ -13,10 +13,10 @@ void setupColour(){
 void senseRed(){
   digitalWrite(S2,LOW);
   digitalWrite(S3,LOW);
-  R = pulseIn(colourOut, LOW);
-  R = map(R, 25, 72, 255, 0);  // 72 maps to 0, 25 maps to 255 
+  Red = pulseIn(colourOut, LOW);
+  Red = map(Red, 25, 72, 255, 0);  // 72 maps to 0, 25 maps to 255 
   Serial.print("R= ");
-  Serial.print(R);  // print RED color frequency
+  Serial.print(Red);  // print RED color frequency
   Serial.print("  ");
 }
 
@@ -24,10 +24,10 @@ void senseRed(){
 void senseGreen(){
   digitalWrite(S2,HIGH);
   digitalWrite(S3,HIGH);
-  G = pulseIn(colourOut, LOW);
-  G = map(G, 30, 90, 255, 0);  // 90 maps to 0, 30 maps to 255 
+  Green = pulseIn(colourOut, LOW);
+  Green = map(Green, 30, 90, 255, 0);  // 90 maps to 0, 30 maps to 255 
   Serial.print("G= ");
-  Serial.print(G);  //print GREEN color frequency
+  Serial.print(Green);  //print GREEN color frequency
   Serial.print("  ");
 }
 
@@ -35,10 +35,10 @@ void senseGreen(){
 void senseBlue(){
   digitalWrite(S2,LOW);
   digitalWrite(S3,HIGH);
-  B = pulseIn(colourOut, LOW);
-  B = map(B, 25, 70, 255, 0);  // 70 maps to 0, 25 maps to 255 
+  Blue = pulseIn(colourOut, LOW);
+  Blue = map(Blue, 25, 70, 255, 0);  // 70 maps to 0, 25 maps to 255 
   Serial.print("B= ");
-  Serial.print(B);  // print BLUE color frequency
+  Serial.print(Blue);  // print BLUE color frequency
   Serial.println("  ");
 }
 
@@ -50,19 +50,19 @@ void senseColour(){
 }
 
 void identifyColour(){
-  if(R > B && R > G) {
+  if(Red > Blue && Red > Green) {
     colour = colours[0];  
   }
-  if(G > B && G > R) {
+  if(Green > Blue && Green > Red) {
     colour = colours[1];  
   }
-  if(B > R && B > G) {
+  if(Blue > Red && Blue > Green) {
     colour = colours[2];
   }
-  if(R > B && G > B) {
+  if(Red > Blue && Green > Blue) {
     colour = colours[3];    
   }
-  if(R < 0 && G < 0 && B < 0) {
+  if(Red < 0 && Green < 0 && Blue < 0) {
     colour = colours[4];
   }
 }

@@ -1,5 +1,5 @@
 void setupBluetooth(){
-  Serial1.begin(9600); //Initiate communications to HM-10 slave module  
+  Serial1.begin(9600); // Initiate communications to HM-10 slave module  
   Serial.println("Bluetooth ready");
 }
 
@@ -35,4 +35,30 @@ void readSerial(){
 void sendBT(char state){
   Serial1.write(state);
   Serial.println((String)"Sent: " + state);
+}
+
+void processCommand(char command){
+  switch (command) {
+    case 'P':
+      Serial.print("STOP at next station, Go WEST, CLOSE Doors");
+      break;
+    case 'R':
+      Serial.print("STOP at next station, Go West, OPEN Doors");
+      break;
+    case 'T':
+      Serial.print("STOP at next station, Go East, CLOSE Doors");
+      break;
+    case 'V':
+      Serial.print("STOP at next station, Go East, OPEN Doors");
+      break;
+    case '\\':
+      Serial.print("START operations, Go West, CLOSE Doors");
+      break;
+    case 'X':
+      Serial.print("START operations, Go West, CLOSE Doors");
+      break;
+    case 'Z':
+      Serial.print("EMERGENCY STOP, CLOSE Doors");
+      break;
+  }
 }

@@ -26,9 +26,9 @@ char c = ' ';
 #define S3 7
 #define colourOut 8
 
-int R = 0;
-int G = 0;
-int B = 0;
+int Red = 0;
+int Green = 0;
+int Blue = 0;
 
 char colours[] = {'R', 'G', 'B', 'Y', 'K'}; 
 
@@ -62,4 +62,5 @@ void loop() {
   sendBT(colour);
   readBT();
   encoderLoop();
+  delay(100);
 }
