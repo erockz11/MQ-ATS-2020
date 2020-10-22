@@ -62,7 +62,7 @@ void identifyColour(){
     digitalWrite(YellowLED,LOW);
     digitalWrite(BlackLED,LOW);      
   }
-  if(Green > Blue && Green > Red && Blue < 100 && Red < 300 && Red > 0 && Green > 0) {
+  if(Green > Blue && Green > Red && Blue < 100 && Red < 300 && abs(Red-Green) > 50 && abs(Blue-Green) > 50) {
     colour = colours[1];
     digitalWrite(GreenLED,HIGH);
     digitalWrite(RedLED,LOW);

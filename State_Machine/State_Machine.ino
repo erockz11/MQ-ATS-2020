@@ -11,14 +11,19 @@
  * Scott
  */
 
-/* Variables: Accelerometer */
+/* Declarations: Accelerometer */
 
+#include <MPU6050_tockn.h>
+#include <Wire.h>
 
-/* Variables: Bluetooth */
+MPU6050 mpu6050(Wire);
+long timer = 0;
+
+/* Declarations: Bluetooth */
 
 char c = ' ';
 
-/* Variables: Colour Sensor */
+/* Declarations: Colour Sensor */
 
 #define S0 4
 #define S1 5
@@ -39,7 +44,7 @@ char colours[] = {'R', 'G', 'B', 'Y', 'K'};
 
 char colour = ' ';
 
-/* Variables: Motor Encoder */
+/* Declarations: Motor Encoder */
 
 #define ENCODER_DO_NOT_USE_INTERRUPTS
 #include <Encoder.h>
@@ -48,9 +53,9 @@ Encoder enc1(31, 33);
 long pos = -999;
 long previousPos = 0;
 
-/* Variables: Motion State Machine */
+/* Declarations: Motion State Machine */
 
-/* Variables: Direction State Machine */
+/* Declarations: Direction State Machine */
 
 void setup() {
   Serial.begin(9600);
@@ -68,4 +73,5 @@ void loop() {
   readBT();
   encoderLoop();
   delay(100);
+  //accelerometerLoop();
 }
