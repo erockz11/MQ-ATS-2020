@@ -33,7 +33,7 @@ void accelerometerLoop() {
     Serial.print("  accZ : ");Serial.println(mpu6050.getAccZ());
   
     Serial.print("accAngleX : ");Serial.print(mpu6050.getAccAngleX());
-    Serial.print("  accAngleY : ");Serial.println(mpu6050.getAccAngleY());
+    Serial.print("accAngleY : ");Serial.println(mpu6050.getAccAngleY());
     Serial.println("=======================================================");
     timer = millis();
     

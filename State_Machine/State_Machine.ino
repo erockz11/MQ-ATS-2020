@@ -69,9 +69,9 @@ void setup() {
 void loop() {
   senseColour();
   identifyColour();
-  sendBT(colour);
   readBT();
+  sendBT(colour);
   encoderLoop();
-  delay(100);
+  delay(50);
   //accelerometerLoop();
 }
