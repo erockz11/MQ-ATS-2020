@@ -133,7 +133,7 @@ void read_buttons() {
   // the reading of the buttons.
   func_leds();
   if (!e_stopped) {
-    int in_values [4] = { digitalRead (4), digitalRead(6), digitalRead(8), digitalRead(2) };
+    int in_values [4] = { digitalRead (4), digitalRead(6), digitalRead(10), digitalRead(2) };
     int i;
 
     // loops through the first three buttons. not including the e-stop button.
