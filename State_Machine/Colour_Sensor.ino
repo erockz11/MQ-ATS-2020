@@ -54,7 +54,7 @@ void senseColour(){
 }
 
 void identifyColour(){
-  if(Red > Blue && Red > Green && (Red-Green) > 110 && Blue < 0 && (Red-Blue) > 170 && Green < 100) {
+  if(Red > Blue && Red > Green && abs(Red-Green) > 100 && abs(Red-Blue) > 100) {
     colour = colours[0];
     digitalWrite(RedLED,HIGH);
     digitalWrite(GreenLED,LOW);
@@ -62,7 +62,7 @@ void identifyColour(){
     digitalWrite(YellowLED,LOW);
     digitalWrite(BlackLED,LOW);      
   }
-  if(Green > Blue && Green > Red && Blue < 100 && Red < 300 && abs(Red-Green) > 50 && abs(Blue-Green) > 50) {
+  if(Green > Blue && Green > Red) {
     colour = colours[1];
     digitalWrite(GreenLED,HIGH);
     digitalWrite(RedLED,LOW);
@@ -70,7 +70,7 @@ void identifyColour(){
     digitalWrite(YellowLED,LOW);
     digitalWrite(BlackLED,LOW);     
   }
-  if(Blue > Red && Blue > Green && (Blue-Green) > 10 && (Blue-Red) > 180) {
+  if(Blue > Red && Blue > Green) {
     colour = colours[2];
     digitalWrite(BlueLED,HIGH);
     digitalWrite(RedLED,LOW);
@@ -78,7 +78,7 @@ void identifyColour(){
     digitalWrite(YellowLED,LOW);
     digitalWrite(BlackLED,LOW);    
   }
-  if(Red > Blue && Green > Blue && Red > Green && Green > 0 && (Red-Green) < 90 && (Red-Blue) > 150 || Red > 300) {
+  if(Red > Blue && Green > Blue && Green > Red && abs(Red-Green) < 60 && abs(Red-Blue) > 120 && abs(Green-Blue) > 120) {
     colour = colours[3];  
     digitalWrite(YellowLED,HIGH);
     digitalWrite(RedLED,LOW);
@@ -86,7 +86,7 @@ void identifyColour(){
     digitalWrite(BlueLED,LOW);
     digitalWrite(BlackLED,LOW);      
   }
-  if(Red < 0 && Green < 0 && Blue < 0) {
+  if(Red < -300 && Green < -300 && Blue < -300) {
     colour = colours[4];
     digitalWrite(BlackLED,HIGH);
     digitalWrite(RedLED,LOW);

@@ -13,11 +13,12 @@ void forceConnection() {
 }
 
 // Receive command messages from Control Box over Bluetooth.
-void readBT(){
+char readBT(){
   if (Serial1.available()){
     c = Serial1.read();
     Serial.println((String)"Received: " + c);
   }
+  return c;
 }
 
 // Read from the Serial Monitor and send to the Bluetooth module.
@@ -40,25 +41,25 @@ void sendBT(char state){
 void processCommand(char command){
   switch (command) {
     case 'P':
-      Serial.print("STOP at next station, Go WEST, CLOSE Doors");
+      Serial.println("STOP at next station, Go WEST, CLOSE Doors");
       break;
     case 'R':
-      Serial.print("STOP at next station, Go West, OPEN Doors");
+      Serial.println("STOP at next station, Go West, OPEN Doors");
       break;
     case 'T':
-      Serial.print("STOP at next station, Go East, CLOSE Doors");
+      Serial.println("STOP at next station, Go East, CLOSE Doors");
       break;
     case 'V':
-      Serial.print("STOP at next station, Go East, OPEN Doors");
+      Serial.println("STOP at next station, Go East, OPEN Doors");
       break;
     case '\\':
-      Serial.print("START operations, Go West, CLOSE Doors");
+      Serial.println((String)"START operations, Go West, CLOSE Doors");
       break;
     case 'X':
-      Serial.print("START operations, Go West, CLOSE Doors");
+      Serial.println("START operations, Go West, CLOSE Doors");
       break;
     case 'Z':
-      Serial.print("EMERGENCY STOP, CLOSE Doors");
+      Serial.println("EMERGENCY STOP, CLOSE Doors");
       break;
   }
 }
