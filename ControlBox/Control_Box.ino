@@ -1,8 +1,9 @@
+#include <Wire.h> 
 #include <LiquidCrystal_I2C.h>
 
 LiquidCrystal_I2C lcd(0x27,20,4);
 
-/* The following Global variables control the state of the control box, the methods that is changing\
+/* The following Global variables control the state of the control box, the methods that is changing
  *  these values are: 
  *  - read_buttons
  *  - check_contradictions
@@ -17,8 +18,8 @@ unsigned long idle_timer;
 boolean idle = false;
 boolean e_stopped = false;
 
-/* the following Global variables control the information for the bluetooth. Received_value, represents\
- * the value we receive from the bluetooth. out_char represents the value we send over the bluetooth.\
+/* the following Global variables control the information for the bluetooth. Received_value, represents
+ * the value we receive from the bluetooth. out_char represents the value we send over the bluetooth.
 */
 char received_value = ' ';
 char out_char;
@@ -36,25 +37,26 @@ void setup() {
   pinMode(2, INPUT_PULLUP); // red
   pinMode(4, INPUT_PULLUP); // Amber
   pinMode(6, INPUT_PULLUP); // green
-  pinMode(10, INPUT_PULLUP); // blue (was pin 8 before M4 fixed)
+  pinMode(10, INPUT_PULLUP); // blue - was 8 now 10
   pinMode(3, OUTPUT); // red
   pinMode(5, OUTPUT); // Amber
   pinMode(7, OUTPUT); // green
+  pinMode(11, OUTPUT); // blue
   
   // These digitalwrites, are setting all the buttons, making sure that they are off
   digitalWrite(3, LOW);
   digitalWrite(5, LOW);
   digitalWrite(7, LOW);
-  digitalWrite(11, LOW); // was pin 9 before m4 fixed
+  digitalWrite(11, LOW); // was 9 now 11
 
   // setting up the serial output panel
   Serial.begin(9600);
-  //setupBT(); // <-- we cannot uncomment this until M4, fixes the bluetooth connections.\
+  //setupBT(); // <-- we cannot uncomment this until M4, fixes the bluetooth connections.
   print_state();
 }
 
 void loop() {
-  // Calculates the current time to milli-seconds, this is for the feature making sure the \
+  // Calculates the current time to milli-seconds, this is for the feature making sure the 
   // loop count sends data at a rate of 10ms. Check 
   unsigned long loop_time = millis ();
   
@@ -88,11 +90,11 @@ void loop() {
   }
 }
 
-/* the following method is use to check the states commanded by the user, and the previous\
- *  states before the button press. This is for the purpose of making sure that the \
- *  commands do not conflict with the expressed usability of the train. \uc0\u921 f there are \
- *  conflicts on a command, the state of that command will be rolled-back to its previous\
- *  state. \
+/* the following method is use to check the states commanded by the user, and the previous
+ *  states before the button press. This is for the purpose of making sure that the 
+ *  commands do not conflict with the expressed usability of the train. Ιf there are 
+ *  conflicts on a command, the state of that command will be rolled-back to its previous
+ *  state. 
  */
 void check_contradictions () {
   // just some screen stuff :)
@@ -102,7 +104,7 @@ void check_contradictions () {
   // UPPDATED STATE: train is moving (states[0]), command sent to open doors (states[2]).
   if ((states[0] == 1 && prev_states[0] == 1) && (prev_states[2] == 0 && states[2] == 1)) {
     print_state(); // printing the current state to the serial output
-    // If true, then conflict on the state for the doors, will be rolled back
+    // If true, then conflict on the state for the doors, will be rolled back.
     states[2] = prev_states[2]; // revert to the previous state.
 
     // Displaying of the message
@@ -157,15 +159,15 @@ void read_buttons() {
   }
 }
 void display_msg (){
-  /*\
-   * Method is called for the printing of the current states and their meanings.\
+  /*
+   * Method is called for the printing of the current states and their meanings.
    */
   if (!e_stopped) {
-    if (received_value == ' ') { //checks if we are receiving any data from state machine
+   //  if (received_value == ' ') { //checks if we are receiving any data from state machine
       
       if (states[3] == 1) { // E-STOPP Engaged.
         e_stopped = true;
-  
+    
         Serial.println("COMMAND: EMERGENCY STOP");
         Serial.println("------------------------");
         Serial.println("Execute power recycle");
@@ -228,7 +230,7 @@ void display_msg (){
             
             lcd.print("WEST");
              
-         } else { // EAST
+          } else { // EAST
             Serial.println("COMMAND: DIRECTION EAST");
   
             lcd.print("EAST");
@@ -237,9 +239,9 @@ void display_msg (){
           prev_states[1] = states[1];
         }
       }
-    } else {
-      print_code(received_value);
-    }
+//    } else {
+//      print_code(received_value);
+//    }
   }
 }
 
@@ -300,9 +302,9 @@ void func_leds(){
     digitalWrite(3,LOW);
   }
 
-  if (digitalRead(10) == LOW){
+    if (digitalRead(10) == LOW){
     digitalWrite(11,HIGH);
   } else{
     digitalWrite(11,LOW);
   }
-}}
+}

@@ -1,9 +1,12 @@
+#include <AltSoftSerial.h>
+AltSoftSerial BTserial;
+
 void setupBT(){
   // initiate communications to HM-10 master module
   
   BTserial.begin(9600);  //setting pin 9 to high
 }
-// This method will only work if there is no active connection between the modules.\
+// This method will only work if there is no active connection between the modules.
 void forceConnection() {
   BTserial.print("AT+IMME1"); // set Manual Connection Mode -> ON 
   BTserial.print("AT+ROLE1"); // set role to MASTER
@@ -26,4 +29,4 @@ char readBT(){
 void sendBT(char command){
   BTserial.write(command);
   Serial.println((String)"Sent: " + command);
-}}
+}
