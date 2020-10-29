@@ -1,6 +1,5 @@
  class Motors {
-    private:
-      Encoder trainEncoder = Encoder(ENCODER_PIN_A, ENCODER_PIN_B);
+    private Encoder trainEncoder = Encoder(ENCODER_PIN_A, ENCODER_PIN_B);
       int trainEncoderCount = 0;
 
     public:
