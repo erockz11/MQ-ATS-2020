@@ -85,9 +85,9 @@ void loop() {
   
   // Keeping the loop within 10ms
   // If there is a problem in the lab with the code remove these two lines
-  if ((10-(millis() - loop_time)) > 0) {
-    delay ((10-(millis() - loop_time))/1000); 
-  }
+//  if ((10-(millis() - loop_time)) > 0) {
+//    delay ((10-(millis() - loop_time))/1000); 
+//  }
 }
 
 /* the following method is use to check the states commanded by the user, and the previous
@@ -97,7 +97,7 @@ void loop() {
  *  state. 
  */
 void check_contradictions () {
-  // just some screen stuff :)
+  // just some screen stuff
   lcd.setCursor(0,0);
   
   // PREVIOUS STATE: train is moving (states[0]), and doors are closed (states[2]).
