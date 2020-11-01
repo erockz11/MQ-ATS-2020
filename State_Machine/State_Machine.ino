@@ -27,7 +27,7 @@ char c = ' ';
 
 #define S0 4
 #define S1 5
-#define S2 6
+#define S2 6 
 #define S3 7
 #define colourOut 8
 #define BlackLED 22
@@ -72,6 +72,5 @@ void loop() {
   readBT();
   sendBT(colour);
   encoderLoop();
-  delay(50);
   //accelerometerLoop();
 }
