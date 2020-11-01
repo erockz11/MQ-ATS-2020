@@ -44,7 +44,7 @@ char colours[] = {'R', 'G', 'B', 'Y', 'K'};
 
 char colour = ' ';
 
-/* Declarations: Motor Encoder */
+/* Declarations: Encoder */
 
 #define ENCODER_DO_NOT_USE_INTERRUPTS
 #include <Encoder.h>
@@ -53,24 +53,30 @@ Encoder enc1(31, 33);
 long pos = -999;
 long previousPos = 0;
 
-/* Declarations: Motion State Machine */
+/* Declarations: Motor and State Machine */
 
-/* Declarations: Direction State Machine */
+#include <Servo.h> 
+
+int Motor_pin0 = 9;
+int Motor0_On_Pin = 13;
+int led = 13;
+Servo Motor0;
 
 void setup() {
   Serial.begin(9600);
   setupAccelerometer();
   setupBluetooth();
   setupColour();
-  setupMotorEncoder();
+  setupEncoder();
+  
   delay(1000);
 }
 
 void loop() {
   senseColour();
   identifyColour();
+  motionLoop();
   readBT();
   sendBT(colour);
-  encoderLoop();
-  //accelerometerLoop();
+
 }

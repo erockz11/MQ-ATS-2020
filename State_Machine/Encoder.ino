@@ -1,5 +1,5 @@
-void setupMotorEncoder(){
-  Serial.println("Motor Encoder ready");
+void setupEncoder(){
+  Serial.println("Encoder ready");
 }
 
 void encoderLoop(){

@@ -1,3 +1,20 @@
+/* The 'Servo.h' library allows you to control motors and servos by passing any value between
+0 and 180 into the "write" method (Motor.write() in this program).
+For a motor:   0 is full power in one direction,
+             180 is full direction in the opposite direction,
+              90 is stop.
+For a servo:   0 is all the way one direction,
+             180 is all the way in the opposite direction,
+              90 is the middle.
+*/
+
+int Motor_max_forward = 1000;
+int Motor_max_reverse = 2000;
+int Motor_stop = 1500; 
+unsigned long next_step;
+unsigned long last_step;
+int state = 0;
+
 // Motion State Machine Declarations
 enum motionStates {STATIONARY, ACCELERATING, CONSTANT, DECELERATING};
 uint8_t motionState = STATIONARY;
@@ -17,15 +34,20 @@ uint8_t directionalState = EAST;
 enum directionalTransitions {DNONE, TRACKEND, BUTTON};
 uint8_t directionalTransition = DNONE;
 
-void east();s
+void east();
 void west();
 
-void setup() {
+void setupMotor() {
   // Initialize Serial
-  Serial.begin(9600);
+  pinMode(led, OUTPUT);     // setup the LED to blink as we run the loop
+  pinMode(Motor0_On_Pin, OUTPUT);
+
+  Motor0.attach(Motor_pin0, 1000, 2000);  // This pin is the control signal for the Motor
+  Motor0.writeMicroseconds(Motor_stop);
+  Serial.println("Motor ready");
 }
 
-void loop() {
+void motionLoop() {
   // Inputs
   input();
   // Motion State Machine
@@ -33,7 +55,7 @@ void loop() {
   // Directional State Machine
   directionalStateMachine(directionalTransition);
   // Arbitrary delay to make serial monitor readable
-  delay(1000);
+  delay(250);
 }
 
 // Motion State Machine
@@ -92,6 +114,8 @@ void motionStateMachine(uint8_t i) {
 // Motion Methods
 void stationary(){
   Serial.println("Stopped.");
+  digitalWrite(Motor0_On_Pin, HIGH);
+  Motor0.writeMicroseconds(Motor_stop);
 }
 
 void accelerating(){
@@ -129,10 +153,14 @@ void directionalStateMachine(uint8_t i) {
 // Directional Methods
 void east(){
   Serial.println("Travelling East");
+  digitalWrite(Motor0_On_Pin, HIGH);
+  Motor0.writeMicroseconds(Motor_max_forward);
 }
 
 void west(){  
   Serial.println("Travelling West");
+  digitalWrite(Motor0_On_Pin, HIGH);
+  Motor0.writeMicroseconds(Motor_max_reverse);
 }
 
 // Inputs: Type these strings into the command line to change between states
@@ -184,6 +212,7 @@ uint8_t input(){
     }
     else{
       motionTransition = MNONE;
+      directionalTransition = DNONE;
     }
   }
 }
