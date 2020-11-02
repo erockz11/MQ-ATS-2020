@@ -1,82 +1,77 @@
-/* STATE MACHINE - TRAIN 2
- * Code by T2_C2
- * ENGG3000/2000
- * Macquarie University S2, 2020
- * Joseph
- * Bharosha
- * Jack
- * Maisha
- * Abhinav
- * Francis
- * Scott
- */
+/* ---------------------------------*\
+|    STATE MACHINE - TRAIN 2         |
+|    Code by T2_C2                   |
+|    ENGG3000/2000                   |
+|    Macquarie University S2, 2020   |
+|    > Joseph                        |
+|    > Bharosha                      |
+|    > Jack                          |
+|    > Maisha                        |
+|    > Abhinav                       |
+|    > Francis                       |
+|    > Scott                         |
+\*----------------------------------*/
 
-/* Declarations: Accelerometer */
+/************ Declarations: Bluetooth *************/
 
-#include <MPU6050_tockn.h>
-#include <Wire.h>
+char command = ' ';
+char pCommand = ' ';
 
-MPU6050 mpu6050(Wire);
-long timer = 0;
-
-/* Declarations: Bluetooth */
-
-char c = ' ';
-
-/* Declarations: Colour Sensor */
+/********** Declarations: Colour Sensor ***********/
 
 #define S0 4
 #define S1 5
 #define S2 6 
 #define S3 7
 #define colourOut 8
-#define BlackLED 22
-#define GreenLED 23
-#define BlueLED 24
-#define YellowLED 25
-#define RedLED 26
-
 int Red = 0;
 int Green = 0;
 int Blue = 0;
+enum colourStates {RED, GREEN, BLUE, YELLOW, BLACK};
+uint8_t colourState= RED;
+uint8_t pColourState= RED;
 
-char colours[] = {'R', 'G', 'B', 'Y', 'K'}; 
-
-char colour = ' ';
-
-/* Declarations: Encoder */
-
-#define ENCODER_DO_NOT_USE_INTERRUPTS
-#include <Encoder.h>
-
-Encoder enc1(31, 33);
-long pos = -999;
-long previousPos = 0;
-
-/* Declarations: Motor and State Machine */
+/************* Declarations: Motor ***************/
 
 #include <Servo.h> 
+int Motor_pin = 9;
+Servo Motor;
+int maxS = 1000;
+int slowS = 1300;
+int maxR = 180;
+int slowR = 1600;
+int stopV = 1500;
 
-int Motor_pin0 = 9;
-int Motor0_On_Pin = 13;
-int led = 13;
-Servo Motor0;
+/********* Declarations: State Machine ***********/
+
+enum directionStates {EAST, WEST};
+uint8_t directionState = EAST;
+boolean emergency = false;
+enum operationStates {HALTED, MOVING};
+uint8_t operationState= HALTED;
+char tStatus = ' ';
+int greenCounter = 0;
+int baud = 9600;
+
+/**************************************************/
+
+
+/*-------------------------------*/
+/*          CODE PROPER          */
+/*-------------------------------*/
 
 void setup() {
-  Serial.begin(9600);
-  setupAccelerometer();
+  Serial.begin(baud);
   setupBluetooth();
   setupColour();
-  setupEncoder();
-  
+  setupMotor();
   delay(1000);
 }
 
 void loop() {
-  senseColour();
-  identifyColour();
-  motionLoop();
-  readBT();
-  sendBT(colour);
-
+  if(emergency == false){
+    readBT();
+    senseColour();
+    checkForUpdates();
+  }
 }

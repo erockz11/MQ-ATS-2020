@@ -1,65 +1,27 @@
-void setupBluetooth(){
-  Serial1.begin(9600); // Initiate communications to HM-10 slave module  
+void setupBluetooth() {
+  Serial1.begin(baud);
   Serial.println("Bluetooth ready");
 }
 
-// This method will only work if there is no active connection between the modules.
 void forceConnection() {
-  Serial1.print("AT+IMME1"); // set Manual Connection Mode -> ON 
-  Serial1.print("AT+RESET" ); // reset module
-  delay(5000);  // wait for 5 seconds, ensure this method is also called on other module
-  Serial1.print("AT+IMME0"); // set Auto Connection Mode -> ON
-  Serial1.print("AT+RESET"); // reset module
+  Serial1.print("AT+IMME1");
+  Serial1.print("AT+RESET" );
+  delay(5000);
+  Serial1.print("AT+IMME0");
+  Serial1.print("AT+RESET");
 }
 
-// Receive command messages from Control Box over Bluetooth.
-char readBT(){
-  if (Serial1.available()){
-    c = Serial1.read();
-    Serial.println((String)"Received: " + c);
+void readBT() {
+  if (Serial1.available()) {
+    command = Serial1.read();
+    Serial.println((String)"Received: " + command);
   }
-  return c;
-}
-
-// Read from the Serial Monitor and send to the Bluetooth module.
-void readSerial(){
-  if (Serial.available()) {
-    c = Serial.read();
-    if (c != 10 & c != 13 ){  // Do not send line end characters to the HM-10
-      Serial1.write(c);
-    }
-    Serial.println((String)"Typed: " + c); // Echo user input onto serial monitor.
+  else {
+    forceConnection();
   }
 }
 
-// Send status characters to Control Box over Bluetooth.
-void sendBT(char state){
-  Serial1.write(state);
-  Serial.println((String)"Sent: " + state);
-}
-
-void processCommand(char command){
-  switch (command) {
-    case 'P':
-      Serial.println("STOP at next station, Go WEST, CLOSE Doors");
-      break;
-    case 'R':
-      Serial.println("STOP at next station, Go West, OPEN Doors");
-      break;
-    case 'T':
-      Serial.println("STOP at next station, Go East, CLOSE Doors");
-      break;
-    case 'V':
-      Serial.println("STOP at next station, Go East, OPEN Doors");
-      break;
-    case '\\':
-      Serial.println((String)"START operations, Go West, CLOSE Doors");
-      break;
-    case 'X':
-      Serial.println("START operations, Go West, CLOSE Doors");
-      break;
-    case 'Z':
-      Serial.println("EMERGENCY STOP, CLOSE Doors");
-      break;
-  }
+void sendBT(char tStatus) {
+  Serial1.write(tStatus);
+  Serial.println((String)"Sent: " + tStatus);
 }
