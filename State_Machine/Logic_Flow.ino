@@ -8,19 +8,16 @@ void colourSwitch(uint8_t colourState) {
       break;
 
     case RED:
-      eStop();
       spin(stopV);
       if (pColourState != RED) {
         switch (operationState) {
           case HALTED:
             if (command == 'X' && directionState == EAST) {
               directionState = WEST;
-              delay(5000);
               spin(slowR);
             }
             else if (command == '\\' && directionState == WEST) {
               directionState = EAST;
-              delay(5000);
               spin(slowS);
             }
             operationState = MOVING;
@@ -47,7 +44,6 @@ void colourSwitch(uint8_t colourState) {
       break;
 
     case GREEN:
-      eStop();
       if (greenCounter == 0) {
         switch (directionState) {
           case EAST:
@@ -77,7 +73,6 @@ void colourSwitch(uint8_t colourState) {
       pColourState = GREEN;
       break;
     case YELLOW:
-      eStop();
       if (pColourState != YELLOW) {
         switch (directionState) {
           case EAST:
@@ -96,7 +91,6 @@ void colourSwitch(uint8_t colourState) {
       break;
 
     case BLACK:
-      eStop();
       break;
   }
 }
@@ -115,7 +109,7 @@ void eStop() {
   if (command == 'Z') {
     spin(stopV);
     emergency = true;
-    tStatus = 'Z';
+    tStatus = command;
     sendBT(tStatus);
     loop();
   }
