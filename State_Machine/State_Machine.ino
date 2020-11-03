@@ -38,7 +38,7 @@ int Motor_pin = 9;
 Servo Motor;
 int maxS = 1000;
 int slowS = 1300;
-int maxR = 180;
+int maxR = 1800;
 int slowR = 1600;
 int stopV = 1500;
 
@@ -69,7 +69,9 @@ void setup() {
 }
 
 void loop() {
+ // spin(1800);
   if(emergency == false){
+    spin(maxS);
     readBT();
     senseColour();
     checkForUpdates();

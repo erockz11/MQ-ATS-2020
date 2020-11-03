@@ -1,75 +1,92 @@
+int currentSpeed;
+int redCounter = 0;
+
 void colourSwitch(uint8_t colourState) {
   switch (colourState) {
-
     case BLUE:
       spin(stopV);
+      currentSpeed = stopV;
       emergency = true;
       tStatus = 'Z';
       break;
-
     case RED:
-      spin(stopV);
-      if (pColourState != RED) {
+      if(pColourState != RED) { 
+        spin(stopV);
+        redCounter++;
         switch (operationState) {
           case HALTED:
-            if (command == 'X' && directionState == EAST) {
-              directionState = WEST;
+              if(command == 'X') {
+              directionState=WEST;
+              currentSpeed = slowR;
               spin(slowR);
             }
-            else if (command == '\\' && directionState == WEST) {
+            else if (command == '\\') {
               directionState = EAST;
+              currentSpeed = slowS;
               spin(slowS);
             }
             operationState = MOVING;
             break;
           case MOVING:
-            if (command == 'P' && directionState == EAST) {
+            currentSpeed = stopV;
+            spin(stopV);
+            if (command == 'P') {
               directionState = WEST;
             }
-            else if (command == 'R' && directionState == EAST) {
+            else if (command == 'R') {
               directionState = WEST;
             }
-            else if (command == 'T' && directionState == WEST) {
+            else if (command == 'T') {
               directionState = EAST;
             }
-            else if (command == 'V' && directionState == WEST) {
+            else if (command == 'V') {
               directionState = EAST;
             }
             operationState = HALTED;
             break;
         }
+      }
+        if (redCounter > 0) {
+          switch (directionState) {
+            case EAST:
+            currentSpeed = slowS;
+            spin(slowS);
+            break;
+            case WEST:
+            currentSpeed = slowR;
+            spin(slowR);
+            break;
+          }
+        }
+      
         pColourState = RED;
         tStatus = pCommand;
-      }
       break;
 
     case GREEN:
-      if (greenCounter == 0) {
+      if (greenCounter == 0 && pColourState != GREEN) {
         switch (directionState) {
           case EAST:
-            spin(maxS);
+            currentSpeed = maxS;
             break;
           case WEST:
-            spin(maxR);
+            currentSpeed = maxR;
             break;
         }
-        if (pColourState != GREEN) {
           greenCounter++;
-        }
       }
-      else if (greenCounter == 1) {
+      else if (greenCounter > 0 && pColourState != GREEN) {
         switch (directionState) {
           case EAST:
-            spin(slowS);
+            currentSpeed = slowS;
             break;
           case WEST:
-            spin(slowR);
+            currentSpeed = slowR;
             break;
-        }
-        if (pColourState != GREEN) {
           greenCounter = 0;
         }
       }
+      spin(currentSpeed);
       pColourState = GREEN;
       break;
     case YELLOW:
@@ -91,10 +108,17 @@ void colourSwitch(uint8_t colourState) {
       break;
 
     case BLACK:
+      redCounter = 0;
+      if (directionState == EAST) {
+        spin(maxS);
+      }
+      else if (directionState = WEST) {
+        spin(maxR);
+      }
+      
       break;
-  }
 }
-
+}
 
 void checkForUpdates() {
   if (pColourState != colourState || (pCommand != ' ' && pCommand != command)) {

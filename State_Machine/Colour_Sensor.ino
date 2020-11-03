@@ -40,25 +40,25 @@ void senseBlue(){
 }
 
 void identifyColour(){
-  if(Red > Blue && Red > Green && abs(Red-Green) > 100 && abs(Red-Blue) > 100) {
+  if(Red > Blue && Red > Green && Red > Blue) {
     colourState = RED;    
     Serial.println("Red");   
   }
-  if(Green > Blue && Green > Red) {
+  if(Green > Blue && Green > Red && Green > -100 && Red < 0) {
     colourState = GREEN;
-    Serial.println("Red");   
+    Serial.println("Green");   
   }
-  if(Blue > Red && Blue > Green) {
+  if(Blue > Red && Blue > Green && Blue > -100) {
     colourState = BLUE;   
-    Serial.println("Red");   
+    Serial.println("Blue");   
   }
-  if(Red > Blue && Green > Blue && Green > Red && abs(Red-Green) < 60 && abs(Red-Blue) > 120 && abs(Green-Blue) > 120) {
+  if(Red > Blue && Green > Blue && Green > Red & Red > 0 & Green > 0) {
     colourState = YELLOW; 
-    Serial.println("Red");      
+    Serial.println("Yellow");      
   }
-  if(Red < -300 && Green < -300 && Blue < -300) {
+  if(Red < -300 && Green < -200 && Blue < -100) {
     colourState = BLACK;
-    Serial.println("Red");   
+    Serial.println("Black");   
   }
 }
 
